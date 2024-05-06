@@ -1,2 +1,6 @@
 # sql-diving-deep
-Diving deeper into SQL.
+
+Learning more about Databases and SQL.
+
+ztm-bootcamp - Files from the course ZTM SQL ztm-bootcamp
+
