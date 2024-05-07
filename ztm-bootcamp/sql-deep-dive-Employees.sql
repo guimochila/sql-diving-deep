@@ -19,3 +19,11 @@ select count(emp_no) from employees;
 select max(salary) from salaries;
 -- Get the total amount of salaries paid
 select sum(salary) from salaries;
+
+/*
+ * Filtering Data
+ */
+select * from employees where gender = 'F';
+select * from employees e 
+	where (e.first_name = 'Bezalel' and e.gender = 'F')
+	or (e.first_name = 'Georgi' and e.gender = 'M');
