@@ -33,3 +33,34 @@ select sum(totalamount) from orders
 where (orders.orderdate >= '2004-06-01' and orderdate <= '2004-06-30')
 and totalamount  > 100;
 
+/*
+ * Null Coalesce
+ * Replace NULL keyword for operations
+ * Returns the first NON-NULL value in a list
+ * 
+ * SELECT coalesce(
+ * 	<column1>,
+ * 	<column2>,
+ * 	<column3>,
+ * 	'Empty') as combined_columns
+ * FROM table;
+ */
+
+-- Adjust the following query to display the null values as "No Address"
+select coalesce(address2, 'No Address') as "Address" from customers; 
+
+-- Fix the following query to apply proper 3VL
+select * from customers where address2 is not null;
+select coalesce (lastName, 'Empty'), * from customers where (age is null);
+
+/*
+ * BETWEEN AND
+ * */
+-- Who between the ages of 30 and 50 has an income less than 50 000?
+-- (include 30 and 50 in the results)
+select * from customers 
+where income <= 50000
+and age between 30 and 50;
+
+-- What is the average income between the ages of 20 and 50? (Including 20 and 50)
+select avg(income) from customers where age between 20 and 50; 
