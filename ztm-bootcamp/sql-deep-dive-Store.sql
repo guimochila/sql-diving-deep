@@ -64,3 +64,34 @@ and age between 30 and 50;
 
 -- What is the average income between the ages of 20 and 50? (Including 20 and 50)
 select avg(income) from customers where age between 20 and 50; 
+
+-- IN Keyword
+-- How many orders were made by customer 7888,1082,12808, 9623?
+select count(orderid) from orders where customerid in (7888, 1082, 12808, 9623);
+
+/*
+* DB: Store
+* Table: customers
+* Question: How many people's zipcode have a 2 in it?.
+* Expected output: 4211 
+*/
+select count(customerid) from customers where zip::text like '%2%';
+select count(customerid) from customers where cast (zip as text) like '%2%';
+ß
+/*
+* DB: Store
+* Table: customers
+* Question: How many people's zipcode start with 2 with the 3rd character being a 1.
+* Expected output: 109 
+*/
+select count(customerid) from customers c where c.zip::text like '2_1%';
+
+/*
+* DB: Store
+* Table: customers
+* Question: Which states have phone numbers starting with 302?
+* Replace null values with "No State"                                                  
+* Expected output: https://imgur.com/AVe6G4c
+*/
+select coalesce (state, 'No State') as "State" from customers where phone::text like '302%';
+
