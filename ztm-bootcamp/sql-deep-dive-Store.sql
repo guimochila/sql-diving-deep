@@ -95,3 +95,13 @@ select count(customerid) from customers c where c.zip::text like '2_1%';
 */
 select coalesce (state, 'No State') as "State" from customers where phone::text like '302%';
 
+
+-- Timestamp Exercises
+/*
+* DB: Store
+* Table: orders
+* Question: How many orders were made in January 2004?
+*/
+
+SELECT count(orderid) FROM orders o
+where date_trunc('month', o.orderdate) = date '2004-01-01' ;

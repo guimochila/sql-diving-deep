@@ -59,3 +59,60 @@ where e.first_name like 'M%';
 select count(emp_no) from employees e where e.first_name ilike 'A%R';
 
 
+-- Timestamp exercises
+/*
+* DB: Employees
+* Table: employees
+* Question: Get me all the employees above 60, use the appropriate date functions
+*/
+
+SELECT first_name, AGE(birth_date) FROM employees
+where extract (year from age(birth_date)) > 60;
+
+-- Alternative
+select count(birth_date) from employees
+where birth_date < now() - interval '61 years';
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many employees where hired in February?
+*/
+
+SELECT count(emp_no) FROM employees where extract (month from hire_date ) = 2;
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many employees were born in november?
+*/
+
+SELECT count(emp_no) FROM employees where extract (month from birth_date) = 11;
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Who is the oldest employee? (Use the analytical function MAX)
+*/
+
+SELECT max(Age(birth_date)) FROM employees;
+
+-- Distinct keyword
+select distinct salary from salaries;
+
+/*
+* DB: Employees
+* Table: titles
+* Question: What unique titles do we have?
+*/
+
+SELECT distinct title FROM titles;
+
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many unique birth dates are there?
+*/
+
+SELECT count(distinct birth_date) FROM employees;
