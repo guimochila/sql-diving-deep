@@ -104,4 +104,5 @@ select coalesce (state, 'No State') as "State" from customers where phone::text 
 */
 
 SELECT count(orderid) FROM orders o
-where date_trunc('month', o.orderdate) = date '2004-01-01' ;
+where date_trunc('month', o.orderdate) = date '2004-01-01';
+

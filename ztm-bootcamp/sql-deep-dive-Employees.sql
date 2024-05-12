@@ -116,3 +116,53 @@ SELECT distinct title FROM titles;
 */
 
 SELECT count(distinct birth_date) FROM employees;
+
+-- ORDER BY keyword
+select first_name, last_name from employees e
+order by first_name desc, last_name desc;
+
+select first_name from employees e 
+order by length(first_name) desc;
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees by first name ascending and last name descending
+*/
+select first_name, last_name from employees e 
+order by e.first_name asc, last_name desc;
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees by age
+*/
+select first_name, last_name, extract('year' from AGE(birth_date)) as "Age" from employees e 
+order by birth_date;
+
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees who's name starts with a "k" by hire_date
+*/
+select * from employees e 
+where e.first_name ilike 'k%'
+order by hire_date;
+
+-- INNER JOIN
+select e.emp_no, concat(e.first_name, ' ', e.last_name) as "Name", s.salary
+from employees as e
+inner join salaries as s on s.emp_no = e.emp_no
+order by e.emp_no asc;
+
+select e.emp_no,
+concat(e.first_name, ' ', e.last_name) as "Name",
+s.salary,
+t.title,
+t.from_date as "Promoted on"
+from employees e
+inner join salaries as s on e.emp_no = s.emp_no
+inner join titles as t on t.emp_no  = e.emp_no
+and t.from_date = (s.from_date + interval '2 days')
+order by e.emp_no asc, s.from_date asc;
