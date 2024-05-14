@@ -106,3 +106,27 @@ select coalesce (state, 'No State') as "State" from customers where phone::text 
 SELECT count(orderid) FROM orders o
 where date_trunc('month', o.orderdate) = date '2004-01-01';
 
+
+-- Inner Join
+
+/*
+* DB: Store
+* Table: orders
+* Question: Get all orders from customers who live in Ohio (OH), New York (NY) or Oregon (OR) state
+* ordered by orderid
+*/
+select c.firstname, o.customerid, c.state 
+from orders o
+inner join customers c on o.customerid = c.customerid 
+where c.state in ('OH', 'NY', 'OR')
+order by o.orderid;
+
+
+/*
+* DB: Store
+* Table: products
+* Question: Show me the inventory for each product
+*/
+select p.prod_id, p.title, i.*
+from products p
+inner join inventory i on p.prod_id = i.prod_id;

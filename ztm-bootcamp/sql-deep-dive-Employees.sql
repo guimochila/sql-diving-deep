@@ -166,3 +166,49 @@ inner join salaries as s on e.emp_no = s.emp_no
 inner join titles as t on t.emp_no  = e.emp_no
 and t.from_date = (s.from_date + interval '2 days')
 order by e.emp_no asc, s.from_date asc;
+
+-- SELF JOIN
+-- Join a table to itself
+-- Outer Join
+-- Left outer join
+-- Right outer join
+
+-- How many employees aren't managers?
+select count(e.emp_no)  
+from employees as e
+left join dept_manager as dm on e.emp_no = dm.emp_no
+where dm.emp_no is null;
+
+-- You want to know every salary raise and also know which ones
+-- were a promotion
+select e.emp_no,
+concat(e.first_name, ' ', e.last_name) as "Name",
+s.salary,
+coalesce (t.title, 'No title change') as "Title",
+coalesce (t.from_date::text, '-') as "Promoted on"
+from employees e
+inner join salaries as s on e.emp_no = s.emp_no
+left join titles as t on t.emp_no  = e.emp_no
+and t.from_date = (s.from_date + interval '2 days')
+order by e.emp_no asc, s.from_date asc;
+
+-- Cross Join
+-- Create a combination of every row
+
+-- Full Join
+-- Return results from both tables whether they match or not
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Show me for each employee which department they work in
+*/
+select e.emp_no, concat(e.first_name, ' ', e.last_name) as "Full Name", d.dept_name 
+from employees e 
+inner join dept_emp de ON e.emp_no = de.emp_no
+inner join departments d on d.dept_no = de.dept_no;
+
+-- Using Keyword
+select e.emp_no, e.first_name, de.dept_no 
+from employees e 
+inner join dept_emp de using(emp_no);
