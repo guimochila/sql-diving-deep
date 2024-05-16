@@ -130,3 +130,4 @@ order by o.orderid;
 select p.prod_id, p.title, i.*
 from products p
 inner join inventory i on p.prod_id = i.prod_id;
+

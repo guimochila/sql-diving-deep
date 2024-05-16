@@ -212,3 +212,93 @@ inner join departments d on d.dept_no = de.dept_no;
 select e.emp_no, e.first_name, de.dept_no 
 from employees e 
 inner join dept_emp de using(emp_no);
+
+-- GROUP BY keyword
+select dept_no, count(emp_no) 
+from dept_emp
+group by dept_no;
+
+/*
+*  How many people were hired on any given hire date?
+*  Database: Employees
+*  Table: Employees
+*/
+
+SELECT count(e.emp_no), e.hire_date as "amount"
+FROM employees as e
+group by hire_date 
+order by "amount";
+
+/*
+*   Show me all the employees, hired after 1991 and count the amount of positions they've had
+*  Database: Employees
+*/
+
+SELECT e.emp_no, count(t.title) as "Amount of title"
+FROM employees as e
+inner join titles t ON t.emp_no = e.emp_no 
+where extract('year' from e.hire_date) > 1991
+group by e.emp_no 
+order by e.emp_no;
+
+
+/*
+*  Show me all the employees that work in the department development and the from and to date.
+*  Database: Employees
+*/
+
+select e.emp_no, de.from_date , de.to_date 
+FROM employees as e
+inner join dept_emp de on de.emp_no = e.emp_no 
+where de.dept_no = 'd005'
+group by e.emp_no, de.from_date , de.to_date
+order by e.emp_no, de.to_date;
+
+-- HAVING keyword
+-- Amount of employees per department
+select d.dept_name , count(e.emp_no) as "# of employees"
+from employees e 
+inner join dept_emp de on de.emp_no = e.emp_no 
+inner join departments d on d.dept_no = de.dept_no
+where e.gender = 'F'
+group by d.dept_name
+having count(e.emp_no) > 25000;
+
+
+/*
+*  Show me all the employees, hired after 1991, that have had more than 2 titles
+*  Database: Employees
+*/
+select e.emp_no , count(t.title) as "titles"
+from employees e 
+inner join titles t on t.emp_no = e.emp_no
+where extract ('year' from e.hire_date) > 1991
+group by e.emp_no
+having count(t.title) > 2
+order by e.emp_no;
+
+
+
+/*
+*  Show me all the employees that have had more than 15 salary changes that work in the department development
+*  Database: Employees
+*/
+select e.emp_no , count(s.from_date)
+from employees e 
+inner join dept_emp de on de.emp_no  = e.emp_no 
+inner join salaries s on s.emp_no  = e.emp_no 
+where de.dept_no = 'd005'
+group by e.emp_no
+having count(s.from_date) > 15
+order by e.emp_no;
+
+
+/*
+*  Show me all the employees that have worked for multiple departments
+*  Database: Employees
+*/
+select e.emp_no, count(de.dept_no)  
+from employees e
+inner join dept_emp de on de.emp_no = e.emp_no
+group by e.emp_no 
+having count(de.dept_no) > 1;
