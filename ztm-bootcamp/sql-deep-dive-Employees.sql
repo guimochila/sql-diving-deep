@@ -301,4 +301,57 @@ select e.emp_no, count(de.dept_no)
 from employees e
 inner join dept_emp de on de.emp_no = e.emp_no
 group by e.emp_no 
-having count(de.dept_no) > 1;
+having count(de.dept_no) > 1
+order by count(de.dept_no);
+
+
+-- Group by mental model
+select s.emp_no, max(s.from_date), max(s.salary)
+from salaries s
+group by s.emp_no;
+
+-- UNION
+-- UNION ALL - Does not remove duplicate records
+/*
+*  Calculate the total amount of employees per department and the total using grouping sets
+*  Database: Employees
+*  Table: Employees
+*/
+select d.dept_name as "Department", count(e.emp_no) as "Total Employees"
+from employees e
+inner join dept_emp de on de.emp_no = e.emp_no
+inner join departments d on d.dept_no = de.dept_no
+group by 
+grouping sets(
+	(),
+	(d.dept_name)
+)
+order by "Total Employees" desc;
+
+
+/*
+*  Calculate the total average salary per department and the total using grouping sets
+*  Database: Employees
+*  Table: Employees
+*/
+select d.dept_name as "Department", avg(s.salary) as "Average Salaries"
+from employees e
+inner join dept_emp de on de.emp_no = e.emp_no
+inner join departments d on d.dept_no = de.dept_no
+inner join salaries s on s.emp_no = e.emp_no 
+group by 
+grouping sets(
+	(d.dept_name),
+	()
+)
+order by d.dept_name;
+
+select grouping(de.dept_no), de.dept_no, AVG(e.salary)
+FROM public.salaries as e
+JOIN public.dept_emp as de USING (emp_no)
+GROUP BY
+	GROUPING SETS (
+		(de.dept_no),
+     	()
+	)
+order by de.dept_no;

@@ -131,3 +131,22 @@ select p.prod_id, p.title, i.*
 from products p
 inner join inventory i on p.prod_id = i.prod_id;
 
+-- UNION
+-- UNION ALL - Does not remove duplicate records
+select null as "prod_id", sum(o.quantity)
+from orderlines as o 
+union
+select prod_id as "prod_id", sum(o.quantity)
+from orderlines as o
+group by prod_id 
+order by prod_id desc;
+
+-- GROUPING SETS
+select prod_id as "prod_id", sum(o.quantity)
+from orderlines as o
+group by
+grouping sets(
+	(),
+	(prod_id)
+)
+order by prod_id desc;
